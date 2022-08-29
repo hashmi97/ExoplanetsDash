@@ -1,0 +1,47 @@
+import pandas as pd
+
+
+class DataLoader():
+    def __init__(self, path='data/data.csv'):
+        self.df = pd.read_csv(path)
+        self.clean_data()
+
+    def clean_data(self):
+        self.df.sort_values(by=['pl_name', 'disc_year'], inplace=True)
+        self.df.drop_duplicates(subset=['pl_name'], keep='first', inplace=True)
+        drop_cols = ['rowid', 'pl_letter', 'hd_name', 'hip_name', 'tic_id', 'gaia_id', 'sy_pnum', 'sy_mnum',
+                     'default_flag',
+                     'cb_flag', 'disc_refname', 'disc_pubdate', 'disc_telescope', 'disc_instrument', 'soltype',
+                     'pl_controv_flag', 'pl_refname', 'pl_cmasse', 'pl_cmassj', 'pl_bmasse', 'pl_bmassj',
+                     'pl_bmassprov',
+                     'pl_insol', 'pl_orbincl', 'pl_tranmid', 'pl_tsystemref', 'ttv_flag', 'pl_imppar', 'pl_trandep',
+                     'pl_trandur', 'pl_ratror', 'pl_occdep', 'pl_orbtper', 'pl_orblper', 'pl_rvamp', 'pl_projobliq',
+                     'pl_trueobliq', 'st_refname', 'st_teff', 'st_met', 'st_metratio', 'st_lum', 'st_logg', 'st_age',
+                     'st_dens',
+                     'st_vsin', 'st_rotp', 'st_radv', 'sy_refname', 'rastr', 'ra', 'decstr', 'dec', 'glat', 'glon',
+                     'elat',
+                     'elon', 'sy_pm', 'sy_pmra', 'sy_pmdec', 'sy_plx', 'sy_bmag', 'sy_vmag', 'sy_jmag', 'sy_hmag',
+                     'sy_kmag',
+                     'sy_umag', 'sy_gmag', 'sy_rmag', 'sy_imag', 'sy_zmag', 'sy_w1mag', 'sy_w2mag', 'sy_w3mag',
+                     'sy_w4mag',
+                     'sy_gaiamag', 'sy_icmag', 'sy_tmag', 'sy_kepmag', 'pl_pubdate', 'releasedate', 'pl_nnotes',
+                     'st_nphot',
+                     'st_nrvc', 'st_nspec', 'pl_nespec', 'pl_ntranspec', 'pl_ratdor', 'rowupdate']
+        self.df.drop(columns=drop_cols, inplace=True)
+        new_col_names = {'pl_name': 'planetName', 'hostname': 'starName', 'sy_snum': 'numStars',
+                         'discoverymethod': 'discoveryMethod', 'disc_year': 'discoveryYear',
+                         'disc_locale': 'discoveryLocale',
+                         'disc_facility': 'discoveryFacility', 'rv_flag': 'detectRV', 'pul_flag': 'detectPUL',
+                         'ptv_flag': 'detectPTV', 'tran_flag': '', 'ast_flag': 'detectAST', 'obm_flag': 'detectOBM',
+                         'micro_flag': 'detectMICRO', 'etv_flag': 'detectETV', 'ima_flag': 'detectIMA',
+                         'pl_msinie': 'massEstE',
+                         'pl_msinij': 'massEstJ', 'dkin_flag': 'detectDKIN', 'pl_orbper': 'orbitalPeriod',
+                         'pl_orbsmax': 'orbitSemiMaj', 'pl_rade': 'planetRadE', 'pl_radj': 'planetRadJ',
+                         'pl_masse': 'planetMassE', 'pl_massj': 'planetMassJ', 'pl_dens': 'planetDens',
+                         'pl_orbeccen': 'planetEcce', 'pl_eqt': 'planetEqtT', 'st_spectype': 'starSpectralType',
+                         'st_rad': 'StarRadius', 'st_mass': 'StarMass', 'sy_dist': 'StarDistance'}
+        self.df.rename(columns=new_col_names, inplace=True)
+        self.df.reset_index(inplace=True)
+
+    def get_data(self):
+        return self.df
