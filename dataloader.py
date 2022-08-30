@@ -37,7 +37,7 @@ class DataLoader():
                      'sy_umag', 'sy_gmag', 'sy_rmag', 'sy_imag', 'sy_zmag', 'sy_w1mag', 'sy_w2mag', 'sy_w3mag',
                      'sy_w4mag',
                      'sy_gaiamag', 'sy_icmag', 'sy_tmag', 'sy_kepmag', 'pl_pubdate', 'releasedate', 'pl_nnotes',
-                     'st_nphot', 'pl_msinij', 'pl_msinie', 'pl_masse', 'pl_massj',
+                     'st_nphot', 'pl_msinij', 'pl_msinie', 'pl_masse', 'pl_massj', 'st_spectype',
                      'st_nrvc', 'st_nspec', 'pl_nespec', 'pl_ntranspec', 'pl_ratdor', 'rowupdate']
 
         self.df.drop(columns=drop_cols, inplace=True)
@@ -50,10 +50,10 @@ class DataLoader():
                          'dkin_flag': 'detectDKIN', 'pl_orbper': 'orbitalPeriod',
                          'pl_orbsmax': 'orbitSemiMaj', 'pl_rade': 'planetRadE', 'pl_radj': 'planetRadJ',
                          'pl_masse': 'planetMassE', 'pl_massj': 'planetMassJ', 'pl_dens': 'planetDens',
-                         'pl_orbeccen': 'planetEcce', 'pl_eqt': 'planetEqtT', 'st_spectype': 'starSpectralType',
-                         'st_rad': 'StarRadius', 'st_mass': 'StarMass', 'sy_dist': 'StarDistance'}
+                         'pl_orbeccen': 'planetEcce', 'pl_eqt': 'planetEqtT',
+                         'st_rad': 'starRadius', 'st_mass': 'starMass', 'sy_dist': 'starDistance'}
         self.df.rename(columns=new_col_names, inplace=True)
-        self.df.reset_index(drop=True, inplace=True)
+        self.df.set_index('planetName', drop=True, inplace=True)
 
     def get_data(self):
         return self.df
