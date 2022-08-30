@@ -1,4 +1,9 @@
 import pandas as pd
+import numpy as np
+import warnings
+from pandas.errors import DtypeWarning
+
+warnings.filterwarnings("ignore", category=DtypeWarning)
 
 
 class DataLoader():
@@ -9,6 +14,13 @@ class DataLoader():
     def clean_data(self):
         self.df.sort_values(by=['pl_name', 'disc_year'], inplace=True)
         self.df.drop_duplicates(subset=['pl_name'], keep='first', inplace=True)
+        massJIt = list(zip(self.df['pl_massj'], self.df['pl_msinij']))
+        massJ = [x0 if np.isfinite(x0) else x1 for (x0, x1) in massJIt]
+        self.df['planetMassJ'] = massJ
+        massEIt = list(zip(self.df['pl_masse'], self.df['pl_msinie']))
+        massE = [x0 if np.isfinite(x0) else x1 for (x0, x1) in massEIt]
+        self.df['planetMassE'] = massE
+
         drop_cols = ['rowid', 'pl_letter', 'hd_name', 'hip_name', 'tic_id', 'gaia_id', 'sy_pnum', 'sy_mnum',
                      'default_flag',
                      'cb_flag', 'disc_refname', 'disc_pubdate', 'disc_telescope', 'disc_instrument', 'soltype',
@@ -25,23 +37,23 @@ class DataLoader():
                      'sy_umag', 'sy_gmag', 'sy_rmag', 'sy_imag', 'sy_zmag', 'sy_w1mag', 'sy_w2mag', 'sy_w3mag',
                      'sy_w4mag',
                      'sy_gaiamag', 'sy_icmag', 'sy_tmag', 'sy_kepmag', 'pl_pubdate', 'releasedate', 'pl_nnotes',
-                     'st_nphot',
+                     'st_nphot', 'pl_msinij', 'pl_msinie', 'pl_masse', 'pl_massj',
                      'st_nrvc', 'st_nspec', 'pl_nespec', 'pl_ntranspec', 'pl_ratdor', 'rowupdate']
+
         self.df.drop(columns=drop_cols, inplace=True)
         new_col_names = {'pl_name': 'planetName', 'hostname': 'starName', 'sy_snum': 'numStars',
                          'discoverymethod': 'discoveryMethod', 'disc_year': 'discoveryYear',
                          'disc_locale': 'discoveryLocale',
                          'disc_facility': 'discoveryFacility', 'rv_flag': 'detectRV', 'pul_flag': 'detectPUL',
-                         'ptv_flag': 'detectPTV', 'tran_flag': '', 'ast_flag': 'detectAST', 'obm_flag': 'detectOBM',
+                         'ptv_flag': 'detectPTV', 'tran_flag': 'detectTrans', 'ast_flag': 'detectAST', 'obm_flag': 'detectOBM',
                          'micro_flag': 'detectMICRO', 'etv_flag': 'detectETV', 'ima_flag': 'detectIMA',
-                         'pl_msinie': 'massEstE',
-                         'pl_msinij': 'massEstJ', 'dkin_flag': 'detectDKIN', 'pl_orbper': 'orbitalPeriod',
+                         'dkin_flag': 'detectDKIN', 'pl_orbper': 'orbitalPeriod',
                          'pl_orbsmax': 'orbitSemiMaj', 'pl_rade': 'planetRadE', 'pl_radj': 'planetRadJ',
                          'pl_masse': 'planetMassE', 'pl_massj': 'planetMassJ', 'pl_dens': 'planetDens',
                          'pl_orbeccen': 'planetEcce', 'pl_eqt': 'planetEqtT', 'st_spectype': 'starSpectralType',
                          'st_rad': 'StarRadius', 'st_mass': 'StarMass', 'sy_dist': 'StarDistance'}
         self.df.rename(columns=new_col_names, inplace=True)
-        self.df.reset_index(inplace=True)
+        self.df.reset_index(drop=True, inplace=True)
 
     def get_data(self):
         return self.df
