@@ -130,3 +130,4 @@ dmypy.json
 /output/
 /data/ignore/
 .idea/
+.DS_Store
