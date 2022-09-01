@@ -152,12 +152,18 @@ app.layout = html.Div(
                     target='_blank',
                     style={'margin-left': '15px', 'margin-right': '15px'}
                 ),
-                'The Data is copyrighted by Johns Hopkins University 2020'
             ],
             style={'width': '100%', 'display': 'flex',  'align-items': 'center', 'justify-content': 'center',
                    'textAlign': 'center'
                    }
+        ),
+        html.Div(
+            'This data was gathered from the NASA Exoplanet Archive. This was done by the California Institute of Technology, under contract with the National Aeronautics and Space Administration under the Exoplanet Exploration Program',
+            style={'width': '100%', 'display': 'flex',  'align-items': 'center', 'justify-content': 'center',
+                   'textAlign': 'center'
+                   }
         )
+
     ]
 )
 
@@ -183,4 +189,4 @@ def update_figure(planet1_name, planet2_name):
 
 
 if __name__ == '__main__':
-    app.run_server()
+    app.run_server(debug=True)
