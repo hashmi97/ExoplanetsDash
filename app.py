@@ -189,4 +189,4 @@ def update_figure(planet1_name, planet2_name):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server()
