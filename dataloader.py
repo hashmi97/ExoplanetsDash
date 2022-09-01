@@ -51,14 +51,7 @@ class DataLoader():
                          'st_rad': 'starRadius', 'st_mass': 'starMass', 'sy_dist': 'starDistance'}
         self.df.rename(columns=new_col_names, inplace=True)
         self.df.set_index('planetName', drop=True, inplace=True)
-        earth_df = pd.DataFrame.from_dict({"Earth": {'starName': 'Sun', 'numStars': 1, 'discoveryMethod': 'N/A',
-                                             'discoveryYear': np.NaN, 'discoveryLocale': 'N/A',
-                                             'discoveryFacility': 'N/A', 'orbitalPeriod': 365.25,
-                                             'orbitSemiMaj': 1, 'planetRadE': 1, 'planetRadJ': 0.0892,
-                                             'planetDens': 5.51, 'planetEcce': 0.017, 'planetEqtT': 255,
-                                             'starRadius': 1, 'starMass': 1, 'starDistance': 0, 'planetMassJ': 0.003145,
-                                             'planetMassE': 1}}).T
-        self.df = pd.concat([self.df, earth_df])
+
         self.df.sort_index(inplace=True)
 
     def get_data(self):

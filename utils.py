@@ -28,6 +28,15 @@ DEFAULT_PLANET_2 = 'HD 80606 b'
 
 df = DataLoader().get_data().dropna(subset=['planetRadJ', 'orbitSemiMaj', 'starRadius',
                                             'planetEcce', 'starDistance'])
+earth_df = pd.DataFrame.from_dict({"Earth": {'starName': 'Sun', 'numStars': 1, 'discoveryMethod': 'N/A',
+                                             'discoveryYear': np.NaN, 'discoveryLocale': 'N/A',
+                                             'discoveryFacility': 'N/A', 'orbitalPeriod': 365.25,
+                                             'orbitSemiMaj': 1, 'planetRadE': 1, 'planetRadJ': 0.0892,
+                                             'planetDens': 5.51, 'planetEcce': 0.017, 'planetEqtT': 255,
+                                             'starRadius': 1, 'starMass': 1, 'starDistance': 0, 'planetMassJ': 0.003145,
+                                             'planetMassE': 1}}).T
+df = pd.concat([df, earth_df])
+df.sort_index(inplace=True)
 
 planetRScaler = MinMaxScaler((10, 50))
 starRScaler = MinMaxScaler((60, 80))
